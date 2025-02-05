@@ -1,10 +1,12 @@
 const std = @import("std");
 const testing = std.testing;
 
-export fn add(a: i32, b: i32) i32 {
-    return a + b;
-}
-
-test "basic add functionality" {
-    try testing.expect(add(3, 7) == 10);
-}
+pub const Event = struct {
+    id: []u8,
+    kind: i64 = 0,
+    created_at: i64,
+    pubkey: []u8,
+    content: []u8,
+    sig: []u8,
+    tags: [][][]u8,
+};
