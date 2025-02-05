@@ -22,7 +22,17 @@
       ];
 
       perSystem =
-        { pkgs, ... }:
+        { pkgs, lib, ... }:
+        let
+          zig_nostr = pkgs.stdenv.mkDerivation {
+            name = "zig-nostr";
+            src = lib.cleanSource ./.;
+
+            nativeBuildInputs = [
+              pkgs.zig_0_13.hook
+            ];
+          };
+        in
         {
           treefmt = {
             projectRootFile = "flake.nix";
@@ -34,6 +44,11 @@
               ".gitignore"
               "flake.lock"
             ];
+          };
+
+          packages = {
+            inherit zig_nostr;
+            default = zig_nostr;
           };
 
           devShells.default = pkgs.mkShell {
