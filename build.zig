@@ -12,13 +12,13 @@ pub fn build(b: *std.Build) void {
     });
 
     // zig-nostr Static library
-    const lightmix = b.addStaticLibrary(.{
+    const zig_nostr = b.addStaticLibrary(.{
         .root_source_file = b.path("src/root.zig"),
         .name = "zig-nostr",
         .target = target,
         .optimize = optimize,
     });
-    b.installArtifact(lightmix);
+    b.installArtifact(zig_nostr);
 
     // Unit tests
     const lib_unit_tests = b.addTest(.{
@@ -35,7 +35,7 @@ pub fn build(b: *std.Build) void {
     // Docs
     const docs_step = b.step("docs", "Install documents into zig-out/share/docs");
     const docs_install = b.addInstallDirectory(.{
-        .source_dir = lightmix.getEmittedDocs(),
+        .source_dir = zig_nostr.getEmittedDocs(),
         .install_dir = .prefix,
         .install_subdir = "share/docs",
     });
